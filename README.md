@@ -1,9 +1,40 @@
-# -Privacy-Preserving-PII-Redactor-AWS-boto3-
+# Hosted Download Page
 
+This folder is ready to become your static hosted page.
 
+## Build the downloadable artifacts
 
+Run:
 
-Summary: Built a Python desktop GUI and AWS-backed pipeline to automatically detect and redact personally identifiable information (PII) from invoice PDFs, producing sanitized outputs for secure sharing and downstream processing.
-Responsibilities: Implemented the PySimpleGUI front end, end-to-end orchestration for remote runs (EC2 + AWS SSM), chunked secure file transfer and extraction, and site deployment automation.
-Tech stack: Python, PySimpleGUI, boto3 (SSM/EC2), AWS EC2, systemd/nginx, PDF tooling (pdfinfo, pdftoppm), ZIP handling, base64 chunking, shell scripting.
-Key achievements: Automated manual redaction workflow into a repeatable pipeline; enabled secure, efficient remote processing of invoice batches and straightforward static site deployment for results/branding.
+```bash
+./build_hosted_assets.sh
+```
+
+That script populates `site/downloads/` with:
+
+- `InvoicePIIRedactor-linux-x86_64.zip`
+- `pii-redactor-backend.zip`
+- `InvoicePIIRedactor-win64.exe` if a Windows build exists in `dist/`
+
+If the Windows executable is still missing, the script writes `site/downloads/WINDOWS_BUILD_REQUIRED.txt` so you know what filename the page expects.
+
+## Build the Windows executable
+
+PyInstaller builds Windows executables on Windows. From a Windows machine with this repo checked out:
+
+```powershell
+.\build_windows.ps1
+```
+
+That produces:
+
+- `dist\InvoicePIIRedactor.exe`
+- `site\downloads\InvoicePIIRedactor-win64.exe`
+
+## Local smoke test
+
+You can open `site/index.html` directly, or serve the folder with any static file server before uploading it to AWS.
+
+## Publish
+
+Upload the contents of `site/` to your S3 static site bucket, CloudFront origin, or any other static host.

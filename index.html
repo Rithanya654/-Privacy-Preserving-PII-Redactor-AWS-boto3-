@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy-Preserving PII Runner Downloads</title>
+  <style>
+    :root {
+      --bg: #f4efe6;
+      --bg-soft: #fffaf2;
+      --panel: rgba(255, 252, 246, 0.92);
+      --border: rgba(92, 72, 45, 0.14);
+      --text: #2d2418;
+      --muted: #6f6252;
+      --accent: #1f6f5f;
+      --accent-strong: #154e43;
+      --accent-soft: #dcefe9;
+      --shadow: 0 22px 60px rgba(79, 58, 33, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top, rgba(31, 111, 95, 0.08), transparent 32%),
+        linear-gradient(180deg, #fbf6ee 0%, #f4efe6 52%, #efe7db 100%);
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 56px 0 72px;
+    }
+
+    .shell {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      padding: 42px 24px 28px;
+    }
+
+    .hero {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 34px;
+    }
+
+    .eyebrow,
+    code,
+    pre {
+      font-family: "Cascadia Code", "JetBrains Mono", "SFMono-Regular", monospace;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 18px 0 12px;
+      font-size: clamp(34px, 7vw, 56px);
+      line-height: 1;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+    }
+
+    .hero p {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.7;
+      color: var(--muted);
+    }
+
+    .downloads {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+
+    .card {
+      padding: 26px 20px 22px;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.62);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .card h2 {
+      margin: 0 0 8px;
+      font-size: 22px;
+      line-height: 1.2;
+    }
+
+    .card p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 15px;
+      flex: 1;
+    }
+
+    .icon-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 18px;
+    }
+
+    .download-icon {
+      width: 84px;
+      height: 84px;
+      border-radius: 24px;
+      background: linear-gradient(180deg, #fffdf8 0%, #efe5d8 100%);
+      border: 1px solid rgba(92, 72, 45, 0.12);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .download-icon svg {
+      width: 48px;
+      height: 48px;
+      stroke: var(--accent-strong);
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .download-icon .fill {
+      fill: rgba(31, 111, 95, 0.12);
+      stroke: none;
+    }
+
+    .button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      width: 100%;
+      margin-top: auto;
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #f7f4ee;
+      text-decoration: none;
+      font-weight: 700;
+      transition: transform 0.16s ease, background 0.16s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      background: var(--accent-strong);
+    }
+
+    .section {
+      margin-top: 18px;
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    .section h3 {
+      margin: 0 0 10px;
+      font-size: 19px;
+    }
+
+    .section p,
+    .section li {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    ol,
+    ul {
+      margin: 10px 0 0;
+      padding-left: 20px;
+    }
+
+    pre {
+      margin: 12px 0 0;
+      padding: 16px;
+      overflow-x: auto;
+      border-radius: 16px;
+      background: #f3ece1;
+      color: #3b3125;
+      border: 1px solid rgba(92, 72, 45, 0.1);
+      line-height: 1.7;
+    }
+
+    code {
+      padding: 2px 6px;
+      border-radius: 8px;
+      background: rgba(31, 111, 95, 0.08);
+      color: var(--accent-strong);
+      font-size: 0.95em;
+    }
+
+    .footer {
+      margin-top: 24px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(100% - 20px, 1240px);
+        padding: 24px 0 44px;
+      }
+
+      .shell {
+        padding: 28px 16px 20px;
+        border-radius: 22px;
+      }
+
+      .card,
+      .section {
+        padding: 18px;
+      }
+
+      .hero p {
+        font-size: 17px;
+      }
+    }
+
+    @media (max-width: 1080px) {
+      .downloads {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 560px) {
+      .downloads {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="shell">
+      <section class="hero">
+        <h1>Privacy-Preserving PII Runner</h1>
+        <p>
+          Download the desktop app or backend bundle from one simple page.
+          Use the Windows or Ubuntu client locally, then connect it to your AWS redaction backend.
+        </p>
+      </section>
+
+      <section class="downloads">
+        <article class="card">
+          <div class="icon-wrap">
+            <div class="download-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48">
+                <rect class="fill" x="8" y="8" width="14" height="14" rx="2"/>
+                <rect class="fill" x="26" y="8" width="14" height="14" rx="2"/>
+                <rect class="fill" x="8" y="26" width="14" height="14" rx="2"/>
+                <rect class="fill" x="26" y="26" width="14" height="14" rx="2"/>
+                <path d="M22 8v32"/>
+                <path d="M26 8v32"/>
+                <path d="M8 22h32"/>
+                <path d="M8 26h32"/>
+              </svg>
+            </div>
+          </div>
+          <h2>Windows App</h2>
+          <p>Standalone Windows executable for the desktop client.</p>
+          <a class="button" href="downloads/InvoicePIIRedactor-win64.exe" download="InvoicePIIRedactor-win64.exe">Download for Windows</a>
+        </article>
+
+        <article class="card">
+          <div class="icon-wrap">
+            <div class="download-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48">
+                <circle class="fill" cx="24" cy="24" r="13"/>
+                <circle cx="24" cy="11.5" r="3.2"/>
+                <circle cx="13.3" cy="17.8" r="3.2"/>
+                <circle cx="13.3" cy="30.2" r="3.2"/>
+                <circle cx="24" cy="36.5" r="3.2"/>
+                <circle cx="34.7" cy="30.2" r="3.2"/>
+                <circle cx="34.7" cy="17.8" r="3.2"/>
+              </svg>
+            </div>
+          </div>
+          <h2>Ubuntu Bundle</h2>
+          <p>Linux package with the current desktop build and launch files.</p>
+          <a class="button" href="downloads/InvoicePIIRedactor-linux-x86_64.zip" download="InvoicePIIRedactor-linux-x86_64.zip">Download for Ubuntu</a>
+        </article>
+
+        <article class="card">
+          <div class="icon-wrap">
+            <div class="download-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48">
+                <path class="fill" d="M14 6h14l10 10v20a6 6 0 0 1-6 6H14a6 6 0 0 1-6-6V12a6 6 0 0 1 6-6Z"/>
+                <path d="M28 6v10h10"/>
+                <path d="M16 22h16"/>
+                <path d="M16 27h16"/>
+                <path d="M16 32h10"/>
+                <path d="M16 14h8"/>
+              </svg>
+            </div>
+          </div>
+          <h2>Sample Data</h2>
+          <p>Use this test ZIP for input if needed.</p>
+          <a class="button" href="downloads/invoice-pii-sample-data.zip" download="invoice-pii-sample-data.zip">Download Sample ZIP</a>
+        </article>
+
+        <article class="card">
+          <div class="icon-wrap">
+            <div class="download-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48">
+                <rect class="fill" x="9" y="12" width="30" height="9" rx="3"/>
+                <rect class="fill" x="9" y="25" width="30" height="11" rx="3"/>
+                <path d="M16 16.5h4"/>
+                <path d="M16 30.5h4"/>
+                <path d="M27 16.5h6"/>
+                <path d="M27 30.5h6"/>
+              </svg>
+            </div>
+          </div>
+          <h2>AWS Backend Bundle</h2>
+          <p>Backend setup ZIP containing <code>bootstrap.sh</code> and the supporting scripts.</p>
+          <a class="button" href="downloads/pii-redactor-backend.zip" download="pii-redactor-backend.zip">Download Backend ZIP</a>
+        </article>
+      </section>
+
+      <section class="section">
+        <h3>Quick Setup</h3>
+        <ol>
+          <li>Download the client for your machine.</li>
+          <li>Optionally download the sample ZIP if you want test input data.</li>
+          <li>Download the backend ZIP and use <code>bootstrap.sh</code> on your EC2 instance.</li>
+          <li>Launch the desktop app, enter AWS credentials, and select your ZIP of PDFs.</li>
+        </ol>
+      </section>
+
+      <section class="section">
+        <h3>Notes</h3>
+        <ul>
+          <li>The desktop app talks to AWS at runtime, so backend access still needs to be configured.</li>
+          <li>The EC2 instance name tag should remain <code>pii-redactor</code>.</li>
+          <li>Run <code>./build_hosted_assets.sh</code> before publishing if you are rebuilding the hosted downloads.</li>
+        </ul>
+      </section>
+
+      <div class="footer">
+        Hosted download page on AWS EC2 instance.
+      </div>
+    </div>
+  </main>
+</body>
+</html>
